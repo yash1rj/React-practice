@@ -9,7 +9,8 @@ class App extends Component {
     persons:[
       {name: "Max", age: 26},
       {name: "Manu", age: 25}
-    ]
+    ],
+    otherState: "some state"
   };
 
   switchNameHandler = () => {
@@ -20,7 +21,9 @@ class App extends Component {
         {name: "Raj", age: 26},
         {name: "Manu", age: 30}
       ]
-    })
+    });
+    // this will shallow merge with the state object
+    // i.e. no effect on "otherState" property of state object
   }
 
   render() {
