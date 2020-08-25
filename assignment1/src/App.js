@@ -22,7 +22,6 @@ class App extends Component {
         <UserInput change={this.nameChangeHandler} currentUser={this.state.username} />
         <UserOutput username="Yash" />
         <UserOutput username="Raj" />
-        <button onClick={this.userChangeHandler}>Change user</button>
         <UserOutput username={this.state.username} />
         <UserOutput username={this.state.username} />
       </div>
