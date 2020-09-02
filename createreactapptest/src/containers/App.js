@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 // import styled from 'styled-components';
 import classes from './App.module.css';
 
-import Person from "./Person/Person"
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 // const StyledButton = styled.button`
 //   background-color: ${props => props.alt ? 'red' : 'green'};
@@ -12,7 +13,7 @@ import Person from "./Person/Person"
 //   border: 1px solid blue;
 //   padding: 8px;
 //   cursor: pointer;
-  
+
 //   &:hover {
 //     background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
 //     color: black;
@@ -52,7 +53,7 @@ class App extends Component {
       return p.id === id;
     });
 
-    const person = {...this.state.persons[personIndex]};
+    const person = { ...this.state.persons[personIndex] };
     // const person = Object.assign({}, this.state.persons[personIndex]);
 
     person.name = event.target.value;
@@ -60,7 +61,7 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
 
     // this.setState({
     //   persons: [
@@ -82,7 +83,7 @@ class App extends Component {
   deletePersonHandler = (personIndex) => {
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);// alters the original list too so make a copy using spread
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   render() {
@@ -101,24 +102,14 @@ class App extends Component {
     // }
 
     let persons = null;
-    let btnClass = "";
 
     if (this.state.showPersons) {
 
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-              click={()=>this.deletePersonHandler(index)} 
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              change={(event) => {this.nameChangeHandler(event, person.id)}} />
-          })}
-        </div>
-      );
+      persons = <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangeHandler} />;
 
-      btnClass = classes.Red;
       //style.backgroundColor = "red";
       // style[':hover'] = {
       //   backgroundColor: "salmon",
@@ -138,23 +129,18 @@ class App extends Component {
       // </div>)
     }
 
-    const assignedClasses = [];
 
-    if(this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red);
-    }
-    if(this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold);
-    }
 
     return (
       //<StyleRoot>
-        <div className={classes.App}>
-          <h1>Hello, React!</h1>
-          <p className={assignedClasses.join(" ")}>This is really working...</p>
-          <button className={btnClass} onClick={this.togglePersonHandler}>Show Persons</button>
-          {persons}
-        </div>
+      <div className={classes.App}>
+        <Cockpit 
+          title={this.props.appTitle}
+          persons={this.state.persons} 
+          showPersons={this.state.showPersons} 
+          toggler={this.togglePersonHandler} />
+        {persons}
+      </div>
       //</StyleRoot>
     )
 
