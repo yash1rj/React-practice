@@ -6,6 +6,11 @@ import classes from './App.module.css';
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxiliary';
+
+import AuthContext from '../context/auth-context';
+
 // const StyledButton = styled.button`
 //   background-color: ${props => props.alt ? 'red' : 'green'};
 //   color: white;
@@ -21,6 +26,10 @@ import Cockpit from "../components/Cockpit/Cockpit";
 // `;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
 
   state = {
     persons: [
@@ -29,8 +38,29 @@ class App extends Component {
       { id: "dgfs3", name: "Ram", age: 28 }
     ],
     otherState: "some state",
-    showPersons: false
+    showPersons: false,
+    showCockpit: true,
+    authenticated: false
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    // return false; // prevents from toggling persons
+    return true; // this is done default if we dont use this hook
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
+  }
 
   switchNameHandler = (newName) => {
     // console.log("Got clicked!");
@@ -86,7 +116,12 @@ class App extends Component {
     this.setState({ persons: persons });
   }
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  }
+
   render() {
+    console.log('[App.js] render');
 
     // const style = {
     //   backgroundColor: "green",
@@ -106,9 +141,9 @@ class App extends Component {
     if (this.state.showPersons) {
 
       persons = <Persons
-          persons={this.state.persons}
-          clicked={this.deletePersonHandler}
-          changed={this.nameChangeHandler} />;
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler}
+        changed={this.nameChangeHandler} />;
 
       //style.backgroundColor = "red";
       // style[':hover'] = {
@@ -133,14 +168,25 @@ class App extends Component {
 
     return (
       //<StyleRoot>
-      <div className={classes.App}>
-        <Cockpit 
-          title={this.props.appTitle}
-          persons={this.state.persons} 
-          showPersons={this.state.showPersons} 
-          toggler={this.togglePersonHandler} />
-        {persons}
-      </div>
+      // <WithClass classes={classes.App}>
+      <Aux>
+        <button onClick={(() => {
+          this.setState({ showCockpit: false });
+        })}>Remove Cockpit</button>
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler
+          }}>
+          {this.state.showCockpit ? (<Cockpit
+            title={this.props.appTitle}
+            personsLength={this.state.persons.length}
+            showPersons={this.state.showPersons}
+            toggler={this.togglePersonHandler} />) : null}
+          {persons}
+        </AuthContext.Provider>
+      </Aux>
+      //</WithClass>
       //</StyleRoot>
     )
 
@@ -151,4 +197,5 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default Radium(App);
+export default withClass(App, classes.App);
