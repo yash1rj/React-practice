@@ -4,3 +4,20 @@ body {
   font-family: sans-serif;
   text-align: center;
 }
+
+.App ul {
+  list-style: none;
+  margin: auto;
+  padding: 0;
+}
+
+.App ul li {
+  display: inline-block;
+  margin: 10px;
+}
+
+.App a:hover,
+.App a:active,
+.App a.active {
+  color: #fa923f;
+}
