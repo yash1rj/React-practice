@@ -6,8 +6,8 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'INCREMENT':
-            const newState = Object.assign({...state}); // still not a deep copy
-            newState.counter = state.counter +1;
+            const newState = Object.assign({ ...state }); // still not a deep copy
+            newState.counter = state.counter + 1;
             return newState;
         case 'DECREMENT':
             return {
@@ -27,8 +27,21 @@ const reducer = (state = initialState, action) => {
         case 'STORE_RESULT':
             return {
                 ...state,
-                results: state.results.concat({id: new Date(), value: state.counter})
+                results: state.results.concat({ id: new Date(), value: state.counter })
             };//push changes the orginal property, but concat is used to immutably adding a new item
+        case 'DELETE_RESULT':
+            //1 way to immutably update array
+            // const id =2;
+            // const newArray = [...state.results];
+            // newArray.splice(id, 1);
+
+            //2nd way
+            const updatedArray = state.results.filter(result => result.id !== action.elId);
+            return {
+                ...state,
+                results: updatedArray
+            };
+
     }
 
     return state;
