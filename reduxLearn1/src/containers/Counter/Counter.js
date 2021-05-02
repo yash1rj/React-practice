@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect}  from 'react-redux';
 // connect is a fn which returns a HOC
 
+import * as actionTypes from '../../store/actions';
+
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 
@@ -63,12 +65,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIncrementCounter: () => dispatch({type: 'INCREMENT'}),
-        onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
-        onAddFiveToCounter: () => dispatch({type: 'ADDFIVE', value: 5}),
-        onSubtractFiveToCounter: () => dispatch({type: 'SUBTRACTFIVE', value: 5}),
-        onStoreResult: () => dispatch({type: 'STORE_RESULT'}),
-        onDeleteResult: (id) => dispatch({type: 'DELETE_RESULT', elId: id})
+        onIncrementCounter: () => dispatch({type: actionTypes.INCREMENT}),
+        onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
+        onAddFiveToCounter: () => dispatch({type: actionTypes.ADDFIVE, value: 5}),
+        onSubtractFiveToCounter: () => dispatch({type: actionTypes.SUBTRACTFIVE, value: 5}),
+        onStoreResult: () => dispatch({type: actionTypes.STORE_RESULT}),
+        onDeleteResult: (id) => dispatch({type: actionTypes.DELETE_RESULT, elId: id})
     };
 };
 
