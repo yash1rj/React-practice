@@ -6,6 +6,8 @@ import registerServiceWorker from './registerServiceWorker';
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
 import counterReducer from '../src/store/reducers/counter';
 import resultsReducer from '../src/store/reducers/results';
 
@@ -27,7 +29,7 @@ const logger = store => {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)));
 
 // provider is a helper component which allows us to kind of inject our store to react components
 // wrap the App component with Provider

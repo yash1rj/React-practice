@@ -31,10 +31,18 @@ export const subtractFive = () => {
     }
 };
 
-export const storeResult = (result) => {
+export const saveResult = (result) => {
     return {
         type: STORE_RESULT,
         counterVal: result
+    }
+};
+
+export const storeResult = (result) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(saveResult(result));
+        }, 2000);
     }
 };
 
