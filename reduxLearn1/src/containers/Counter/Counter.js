@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect}  from 'react-redux';
 // connect is a fn which returns a HOC
 
-import * as actionCreators from '../../store/actions/actions';
+import * as actionCreators from '../../store/actions/index';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
