@@ -1,11 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import Search from './Search';
 
 const Ingredients = () => {
-  const [useringredients, setUserIngredients] = useState([]);
+  const [userIngredients, setUserIngredients] = useState([]);
+
+  // we are already loading ingredients in our Search component
+  // useEffect(() => {
+  //   fetch('https://react-hooks-basketapp-default-rtdb.firebaseio.com/ingredients.json')
+  //     .then(response => response.json())
+  //     .then(responseData => {
+  //       const loadedIngredients = [];
+  //       for (const key in responseData) {
+  //         loadedIngredients.push({
+  //           id: key,
+  //           title: responseData[key].title,
+  //           amount: responseData[key].amount
+  //         });
+  //       }
+  //       console.log('1RENDERING INGREDIENTS');
+  //       setUserIngredients(loadedIngredients);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    console.log('2RENDERING INGREDIENTS', userIngredients);
+  }, [userIngredients]);
+
+  const filteredIngredientsHandler = useCallback(filteredIngredients => {
+    setUserIngredients(filteredIngredients);
+  }, []);
 
   const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-basketapp-default-rtdb.firebaseio.com/ingredients.json', {
@@ -35,8 +61,8 @@ const Ingredients = () => {
       <IngredientForm onAddIngredients={addIngredientHandler} />
 
       <section>
-        <Search />
-        <IngredientList ingredients={useringredients} onRemoveItem={removeIngredientHandler} />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
+        <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
       </section>
     </div>
   );
