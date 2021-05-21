@@ -70,7 +70,7 @@ const Ingredients = () => {
     });
   }, []);
 
-  const addIngredientHandler = ingredient => {
+  const addIngredientHandler = useCallback(ingredient => {
     // setIsLoading(true);
     dispatchHttp({
       type: 'SEND'
@@ -95,9 +95,9 @@ const Ingredients = () => {
         ingredient: { id: responseData.name, ...ingredient }
       });
     });
-  };
+  }, []);
 
-  const removeIngredientHandler = id => {
+  const removeIngredientHandler = useCallback(id => {
     // setIsLoading(true);
     dispatchHttp({
       type: 'SEND'
@@ -126,7 +126,7 @@ const Ingredients = () => {
         errData: "Something went wrong!!"
       });
     });
-  };
+  }, []);
 
   const clearError = () => {
     // setError(null);
