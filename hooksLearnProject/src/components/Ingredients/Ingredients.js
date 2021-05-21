@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -6,7 +6,7 @@ import Search from './Search';
 import ErrorModal from '../UI/ErrorModal';
 
 const ingredientReducer = (currentIngredients, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'SET':
       return action.ingredients;
     case 'ADD':
@@ -19,7 +19,7 @@ const ingredientReducer = (currentIngredients, action) => {
 };
 
 const httpReducer = (currentHttpState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'SEND':
       return { loading: true, error: null };
     case 'RESPONSE':
@@ -35,7 +35,7 @@ const httpReducer = (currentHttpState, action) => {
 
 const Ingredients = () => {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
-  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null});
+  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
   // const [userIngredients, setUserIngredients] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState();
@@ -128,12 +128,20 @@ const Ingredients = () => {
     });
   }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     // setError(null);
     dispatchHttp({
       type: 'CLEAR_ERROR'
     });
-  };
+  }, []);
+
+  const igList = useMemo(() => {
+    return (
+      <IngredientList
+        ingredients={userIngredients}
+        onRemoveItem={removeIngredientHandler} />
+    );
+  }, [userIngredients, removeIngredientHandler]);
 
   return (
     <div className="App">
@@ -143,7 +151,7 @@ const Ingredients = () => {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
-        <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler} />
+        {igList}
       </section>
     </div>
   );
