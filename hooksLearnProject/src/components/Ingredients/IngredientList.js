@@ -3,7 +3,7 @@ import React from 'react';
 import './IngredientList.css';
 
 const IngredientList = props => {
-  console.log("RENDERING ING LIST");
+  // console.log("RENDERING ING LIST");
   return (
     <section className="ingredient-list">
       <h2>Loaded Ingredients</h2>
