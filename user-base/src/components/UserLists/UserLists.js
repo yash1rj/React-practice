@@ -1,0 +1,20 @@
+import React from 'react';
+import Card from '../UI/Card/Card';
+import classes from './UserLists.module.css';
+
+const UserLists = props => {
+
+    return (
+        <Card className={classes.users}>
+            <ul>
+                {props.userData.map(user => (
+                    <li key={user.id}>
+                        {user.name}  ({user.age} years old)
+                    </li>
+                ))}
+            </ul>
+        </Card>
+    );
+};
+
+export default UserLists;
