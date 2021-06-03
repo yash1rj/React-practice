@@ -14,13 +14,17 @@ import App from './App';
 
 // const store = createStore(rootReducer);
 
-import ProductsProvider from './context/products-context';
+// import ProductsProvider from './context/products-context';
+
+import configureProductsStore from './hooks-store/products-store';
+import configureCounterStore from './hooks-store/counter-store';
+
+configureProductsStore();
+configureCounterStore();
 
 ReactDOM.render(
-  <ProductsProvider>
     <BrowserRouter>
       <App />
-    </BrowserRouter>
-  </ProductsProvider>,
+    </BrowserRouter>,
   document.getElementById('root')
 );
